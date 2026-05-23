@@ -14,6 +14,7 @@ internal sealed class PipOpacityApplicationContext : ApplicationContext
     private readonly ToolStripMenuItem enabledItem;
     private readonly ToolStripMenuItem opacityLabelItem;
     private readonly ToolStripMenuItem clickThroughItem;
+    private readonly ToolStripMenuItem alwaysOnTopItem;
     private readonly ToolStripMenuItem startupItem;
     private readonly TrackBar opacityTrackBar;
     private readonly Icon appIcon;
@@ -72,6 +73,16 @@ internal sealed class PipOpacityApplicationContext : ApplicationContext
             SaveAndApply();
         };
 
+        alwaysOnTopItem = new ToolStripMenuItem("Always on top")
+        {
+            CheckOnClick = true,
+        };
+        alwaysOnTopItem.Click += (_, _) =>
+        {
+            config.AlwaysOnTop = alwaysOnTopItem.Checked;
+            SaveAndApply();
+        };
+
         var resetItem = new ToolStripMenuItem("Reset PiP windows to normal", null, (_, _) => ResetToNormal());
 
         startupItem = new ToolStripMenuItem("Start with Windows")
@@ -92,6 +103,7 @@ internal sealed class PipOpacityApplicationContext : ApplicationContext
             Height = 48,
         });
         menu.Items.Add(clickThroughItem);
+        menu.Items.Add(alwaysOnTopItem);
         menu.Items.Add(new ToolStripSeparator());
         menu.Items.Add(resetItem);
         menu.Items.Add(startupItem);
@@ -162,6 +174,10 @@ internal sealed class PipOpacityApplicationContext : ApplicationContext
                 config.ClickThrough = !config.ClickThrough;
                 SaveAndApply();
                 break;
+            case HotkeyCommand.ToggleAlwaysOnTop:
+                config.AlwaysOnTop = !config.AlwaysOnTop;
+                SaveAndApply();
+                break;
         }
     }
 
@@ -182,6 +198,7 @@ internal sealed class PipOpacityApplicationContext : ApplicationContext
         config.Enabled = true;
         config.OpacityPercent = OpacityPolicy.MaximumPercent;
         config.ClickThrough = false;
+        config.AlwaysOnTop = false;
         controller.RestoreAll();
         SaveAndApply();
     }
@@ -237,6 +254,7 @@ internal sealed class PipOpacityApplicationContext : ApplicationContext
     {
         enabledItem.Checked = config.Enabled;
         clickThroughItem.Checked = config.ClickThrough;
+        alwaysOnTopItem.Checked = config.AlwaysOnTop;
         startupItem.Checked = config.StartWithWindows;
         opacityLabelItem.Text = $"Opacity: {config.OpacityPercent}%";
 
@@ -251,8 +269,9 @@ internal sealed class PipOpacityApplicationContext : ApplicationContext
     private string BuildNotifyText()
     {
         var clickThroughText = config.ClickThrough ? ", click-through" : string.Empty;
+        var topMostText = config.AlwaysOnTop ? ", always on top" : ", not topmost";
         return config.Enabled
-            ? $"Firefox PiP Opacity: {config.OpacityPercent}%{clickThroughText}"
+            ? $"Firefox PiP Opacity: {config.OpacityPercent}%{clickThroughText}{topMostText}"
             : "Firefox PiP Opacity: paused";
     }
 

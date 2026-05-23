@@ -12,6 +12,7 @@ public sealed class AppConfigTests
         Assert.True(config.Enabled);
         Assert.Equal(67, config.OpacityPercent);
         Assert.False(config.ClickThrough);
+        Assert.False(config.AlwaysOnTop);
         Assert.False(config.StartWithWindows);
     }
 
@@ -23,6 +24,7 @@ public sealed class AppConfigTests
             Enabled = true,
             OpacityPercent = 5,
             ClickThrough = true,
+            AlwaysOnTop = true,
             StartWithWindows = true,
         };
 
@@ -30,6 +32,7 @@ public sealed class AppConfigTests
 
         Assert.Equal(35, normalized.OpacityPercent);
         Assert.True(normalized.ClickThrough);
+        Assert.True(normalized.AlwaysOnTop);
         Assert.True(normalized.StartWithWindows);
     }
 }

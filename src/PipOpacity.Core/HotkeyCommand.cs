@@ -7,6 +7,7 @@ public enum HotkeyCommand
     DecreaseOpacity,
     Reset,
     ToggleClickThrough,
+    ToggleAlwaysOnTop,
 }
 
 public static class HotkeyIds
@@ -17,6 +18,7 @@ public static class HotkeyIds
     public const int ToggleClickThrough = 104;
     public const int IncreaseOpacityNumpad = 105;
     public const int DecreaseOpacityNumpad = 106;
+    public const int ToggleAlwaysOnTop = 107;
 }
 
 public static class HotkeyCommandMapper
@@ -29,6 +31,7 @@ public static class HotkeyCommandMapper
             HotkeyIds.DecreaseOpacity or HotkeyIds.DecreaseOpacityNumpad => HotkeyCommand.DecreaseOpacity,
             HotkeyIds.Reset => HotkeyCommand.Reset,
             HotkeyIds.ToggleClickThrough => HotkeyCommand.ToggleClickThrough,
+            HotkeyIds.ToggleAlwaysOnTop => HotkeyCommand.ToggleAlwaysOnTop,
             _ => HotkeyCommand.None,
         };
     }

@@ -1,17 +1,18 @@
 # Firefox PiP Opacity
 
-A tiny Windows tray utility for making Firefox Picture-in-Picture windows translucent.
+A tiny Windows tray utility for controlling Firefox Picture-in-Picture window opacity and topmost behavior.
 
-Firefox does not expose a native opacity slider for PiP windows. This app takes the OS-level route: it watches for Firefox PiP windows and applies Win32 layered-window opacity only to those windows.
+Firefox does not expose a native opacity slider for PiP windows. This app takes the OS-level route: it watches for Firefox PiP windows and applies Win32 layered-window opacity and topmost state only to those windows.
 
 ## Features
 
 - Targets Firefox PiP windows only.
 - Adjustable opacity from 35% to 100%.
 - Optional click-through mode.
+- Always-on-top toggle. When unchecked, detected PiP windows are actively made not-topmost.
 - Tray menu for pause, reset, startup, and exit.
 - Global hotkeys for quick opacity changes.
-- Restores modified window styles when paused, reset, or closed.
+- Restores modified window styles and original topmost state when paused or closed.
 - Runs as a user-session tray app, not a Windows service.
 
 ## Install
@@ -32,6 +33,7 @@ The app appears as `Firefox PiP Opacity` in the notification area. Use the tray 
 - `Ctrl+Alt+-` or `Ctrl+Alt+Numpad -`: decrease opacity
 - `Ctrl+Alt+0`: reset PiP windows to normal
 - `Ctrl+Alt+T`: toggle click-through
+- `Ctrl+Alt+A`: toggle always-on-top
 
 Hotkeys do nothing when no Firefox PiP window is detected.
 

@@ -5,7 +5,7 @@ using PipOpacity.Core;
 internal sealed class WindowOpacityController
 {
     private readonly WindowEnumerator windowEnumerator;
-    private readonly WindowStyleStateStore stateStore = new();
+    private readonly WindowStateStore stateStore = new();
     private readonly FileLogger logger;
     private readonly Action<string> warnOnce;
     private bool warnedAboutWindowAccess;
@@ -51,37 +51,58 @@ internal sealed class WindowOpacityController
 
     private void ApplyToWindow(nint handle, PipOpacityConfig config)
     {
-        if (config.OpacityPercent >= OpacityPolicy.MaximumPercent && !config.ClickThrough)
+        var currentStyle = NativeMethods.GetWindowExStyle(handle);
+        stateStore.RememberOriginal(
+            handle,
+            new WindowOriginalState(
+                ExtendedStyle: currentStyle,
+                WasTopMost: (currentStyle & NativeMethods.WsExTopmost) == NativeMethods.WsExTopmost));
+
+        if (!stateStore.TryGetOriginal(handle, out var originalState))
         {
-            RestoreKnownWindow(handle);
-            return;
+            originalState = new WindowOriginalState(
+                ExtendedStyle: currentStyle,
+                WasTopMost: (currentStyle & NativeMethods.WsExTopmost) == NativeMethods.WsExTopmost);
         }
 
-        var originalStyle = NativeMethods.GetWindowExStyle(handle);
-        stateStore.RememberOriginal(handle, originalStyle);
-
-        if (!stateStore.TryGetOriginal(handle, out originalStyle))
-        {
-            originalStyle = NativeMethods.GetWindowExStyle(handle);
-        }
-
-        var desiredStyle = originalStyle | NativeMethods.WsExLayered;
-        if (config.ClickThrough)
-        {
-            desiredStyle |= NativeMethods.WsExTransparent;
-        }
-
-        if (NativeMethods.GetWindowExStyle(handle) != desiredStyle && !NativeMethods.SetWindowExStyle(handle, desiredStyle))
+        var desiredStyle = BuildDesiredExtendedStyle(originalState.ExtendedStyle, config);
+        if (currentStyle != desiredStyle && !NativeMethods.SetWindowExStyle(handle, desiredStyle))
         {
             HandleWindowAccessFailure(handle, "set extended style");
             return;
         }
 
-        var alpha = OpacityPolicy.PercentToAlpha(config.OpacityPercent);
-        if (!NativeMethods.SetLayeredWindowAttributes(handle, crKey: 0, alpha, NativeMethods.LwaAlpha))
+        if ((desiredStyle & NativeMethods.WsExLayered) == NativeMethods.WsExLayered)
         {
-            HandleWindowAccessFailure(handle, "set layered opacity");
+            var alpha = OpacityPolicy.PercentToAlpha(config.OpacityPercent);
+            if (!NativeMethods.SetLayeredWindowAttributes(handle, crKey: 0, alpha, NativeMethods.LwaAlpha))
+            {
+                HandleWindowAccessFailure(handle, "set layered opacity");
+            }
         }
+
+        ApplyTopMost(handle, config.AlwaysOnTop);
+    }
+
+    private static int BuildDesiredExtendedStyle(int originalStyle, PipOpacityConfig config)
+    {
+        var desiredStyle = originalStyle;
+
+        if (config.OpacityPercent < OpacityPolicy.MaximumPercent || config.ClickThrough)
+        {
+            desiredStyle |= NativeMethods.WsExLayered;
+        }
+
+        if (config.ClickThrough)
+        {
+            desiredStyle |= NativeMethods.WsExTransparent;
+        }
+
+        desiredStyle = config.AlwaysOnTop
+            ? desiredStyle | NativeMethods.WsExTopmost
+            : desiredStyle & ~NativeMethods.WsExTopmost;
+
+        return desiredStyle;
     }
 
     private void RestoreOrForgetStaleHandles(HashSet<nint> matchedHandles)
@@ -102,27 +123,29 @@ internal sealed class WindowOpacityController
         }
     }
 
-    private void RestoreKnownWindow(nint handle)
-    {
-        if (!stateStore.TryGetOriginal(handle, out var originalStyle))
-        {
-            return;
-        }
-
-        RestoreWindow(handle, originalStyle);
-        stateStore.Forget(handle);
-    }
-
-    private void RestoreWindow(nint handle, int originalStyle)
+    private void RestoreWindow(nint handle, WindowOriginalState originalState)
     {
         if (!NativeMethods.IsWindow(handle))
         {
             return;
         }
 
-        if (!NativeMethods.SetWindowExStyle(handle, originalStyle))
+        if (!NativeMethods.SetWindowExStyle(handle, originalState.ExtendedStyle))
         {
             HandleWindowAccessFailure(handle, "restore extended style");
+        }
+
+        ApplyTopMost(handle, originalState.WasTopMost);
+    }
+
+    private void ApplyTopMost(nint handle, bool alwaysOnTop)
+    {
+        var insertAfter = alwaysOnTop ? NativeMethods.HwndTopMost : NativeMethods.HwndNotTopMost;
+        var flags = NativeMethods.SwpNomove | NativeMethods.SwpNosize | NativeMethods.SwpNoactivate;
+
+        if (!NativeMethods.SetWindowPos(handle, insertAfter, 0, 0, 0, 0, flags))
+        {
+            HandleWindowAccessFailure(handle, alwaysOnTop ? "set topmost state" : "clear topmost state");
         }
     }
 

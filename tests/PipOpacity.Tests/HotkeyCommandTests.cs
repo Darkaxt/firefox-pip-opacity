@@ -11,6 +11,7 @@ public sealed class HotkeyCommandTests
     [InlineData(HotkeyIds.DecreaseOpacityNumpad, HotkeyCommand.DecreaseOpacity)]
     [InlineData(HotkeyIds.Reset, HotkeyCommand.Reset)]
     [InlineData(HotkeyIds.ToggleClickThrough, HotkeyCommand.ToggleClickThrough)]
+    [InlineData(HotkeyIds.ToggleAlwaysOnTop, HotkeyCommand.ToggleAlwaysOnTop)]
     public void KnownHotkeyIdsMapToCommands(int id, HotkeyCommand expected)
     {
         Assert.Equal(expected, HotkeyCommandMapper.FromId(id));

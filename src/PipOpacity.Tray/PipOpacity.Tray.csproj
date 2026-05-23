@@ -10,9 +10,9 @@
     <ApplicationIcon>Assets\PipOpacity.ico</ApplicationIcon>
     <AssemblyName>PipOpacity.Tray</AssemblyName>
     <Product>Firefox PiP Opacity</Product>
-    <Version>0.1.0</Version>
+    <Version>0.2.0</Version>
     <Authors>Darkaxt</Authors>
-    <Description>Windows tray utility for applying opacity and click-through behavior to Firefox Picture-in-Picture windows.</Description>
+    <Description>Windows tray utility for applying opacity, click-through behavior, and topmost state to Firefox Picture-in-Picture windows.</Description>
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
