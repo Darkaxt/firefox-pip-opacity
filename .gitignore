@@ -1,0 +1,12 @@
+bin/
+obj/
+publish/
+artifacts/
+.vs/
+.vscode/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+TestResults/
+*.nupkg

@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/PipOpacity.Core/PipOpacity.Core.csproj" />
+    <Project Path="src/PipOpacity.Tray/PipOpacity.Tray.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/PipOpacity.Tests/PipOpacity.Tests.csproj" />
+  </Folder>
+</Solution>
