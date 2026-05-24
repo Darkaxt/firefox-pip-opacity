@@ -2,9 +2,10 @@ namespace PipOpacity.Core;
 
 public static class OpacityPolicy
 {
-    public const int MinimumPercent = 35;
+    public const int MinimumPercent = 0;
     public const int MaximumPercent = 100;
     public const int StepPercent = 5;
+    public static readonly int[] PresetPercents = [0, 25, 50, 67, 75, 100];
 
     public static int ClampPercent(int percent)
     {

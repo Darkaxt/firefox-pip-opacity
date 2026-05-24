@@ -1,5 +1,6 @@
 namespace PipOpacity.Tray;
 
+using System.IO;
 using System.Text.Json;
 using PipOpacity.Core;
 

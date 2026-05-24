@@ -54,15 +54,11 @@ internal sealed class WindowOpacityController
         var currentStyle = NativeMethods.GetWindowExStyle(handle);
         stateStore.RememberOriginal(
             handle,
-            new WindowOriginalState(
-                ExtendedStyle: currentStyle,
-                WasTopMost: (currentStyle & NativeMethods.WsExTopmost) == NativeMethods.WsExTopmost));
+            new WindowOriginalState(ExtendedStyle: currentStyle));
 
         if (!stateStore.TryGetOriginal(handle, out var originalState))
         {
-            originalState = new WindowOriginalState(
-                ExtendedStyle: currentStyle,
-                WasTopMost: (currentStyle & NativeMethods.WsExTopmost) == NativeMethods.WsExTopmost);
+            originalState = new WindowOriginalState(ExtendedStyle: currentStyle);
         }
 
         var desiredStyle = BuildDesiredExtendedStyle(originalState.ExtendedStyle, config);
@@ -80,8 +76,6 @@ internal sealed class WindowOpacityController
                 HandleWindowAccessFailure(handle, "set layered opacity");
             }
         }
-
-        ApplyTopMost(handle, config.AlwaysOnTop);
     }
 
     private static int BuildDesiredExtendedStyle(int originalStyle, PipOpacityConfig config)
@@ -97,10 +91,6 @@ internal sealed class WindowOpacityController
         {
             desiredStyle |= NativeMethods.WsExTransparent;
         }
-
-        desiredStyle = config.AlwaysOnTop
-            ? desiredStyle | NativeMethods.WsExTopmost
-            : desiredStyle & ~NativeMethods.WsExTopmost;
 
         return desiredStyle;
     }
@@ -133,19 +123,6 @@ internal sealed class WindowOpacityController
         if (!NativeMethods.SetWindowExStyle(handle, originalState.ExtendedStyle))
         {
             HandleWindowAccessFailure(handle, "restore extended style");
-        }
-
-        ApplyTopMost(handle, originalState.WasTopMost);
-    }
-
-    private void ApplyTopMost(nint handle, bool alwaysOnTop)
-    {
-        var insertAfter = alwaysOnTop ? NativeMethods.HwndTopMost : NativeMethods.HwndNotTopMost;
-        var flags = NativeMethods.SwpNomove | NativeMethods.SwpNosize | NativeMethods.SwpNoactivate;
-
-        if (!NativeMethods.SetWindowPos(handle, insertAfter, 0, 0, 0, 0, flags))
-        {
-            HandleWindowAccessFailure(handle, alwaysOnTop ? "set topmost state" : "clear topmost state");
         }
     }
 

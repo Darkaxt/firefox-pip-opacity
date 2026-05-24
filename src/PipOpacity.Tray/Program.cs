@@ -11,7 +11,7 @@ static class Program
             return;
         }
 
-        ApplicationConfiguration.Initialize();
-        Application.Run(new PipOpacityApplicationContext());
+        var application = new PipOpacityWpfApplication();
+        application.Run();
     }
 }

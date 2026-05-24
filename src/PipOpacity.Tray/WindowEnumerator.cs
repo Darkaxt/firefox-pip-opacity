@@ -39,15 +39,19 @@ internal sealed class WindowEnumerator
         _ = NativeMethods.GetWindowRect(handle, out var rect);
         _ = NativeMethods.GetWindowThreadProcessId(handle, out var processId);
 
-        return new WindowSnapshot(
+        var snapshot = new WindowSnapshot(
             Handle: handle,
-            ProcessPath: GetProcessPath(processId),
+            ProcessPath: string.Empty,
             Title: GetWindowText(handle),
             ClassName: GetClassName(handle),
             IsVisible: NativeMethods.IsWindowVisible(handle),
             Width: rect.Width,
             Height: rect.Height,
             Owner: NativeMethods.GetWindow(handle, NativeMethods.GwOwner));
+
+        return PipWindowMatcher.HasPictureInPictureShape(snapshot)
+            ? snapshot with { ProcessPath = GetProcessPath(processId) }
+            : snapshot;
     }
 
     private static string GetWindowText(nint handle)

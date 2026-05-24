@@ -27,12 +27,41 @@ public sealed class PipWindowMatcherTests
         Assert.False(PipWindowMatcher.IsFirefoxPictureInPicture(window));
     }
 
+    [Fact]
+    public void PictureInPictureShapeMatchesBeforeProcessPathIsKnown()
+    {
+        var window = NewWindow(processPath: string.Empty);
+
+        Assert.True(PipWindowMatcher.HasPictureInPictureShape(window));
+    }
+
+    [Theory]
+    [MemberData(nameof(NonPipShapes))]
+    public void NonPictureInPictureShapesDoNotNeedProcessPathInspection(WindowSnapshot window)
+    {
+        Assert.False(PipWindowMatcher.HasPictureInPictureShape(window with { ProcessPath = string.Empty }));
+    }
+
     public static TheoryData<WindowSnapshot> NonPipWindows()
     {
         return new TheoryData<WindowSnapshot>
         {
             NewWindow(title: "Queue - Mozilla Firefox", className: "MozillaWindowClass"),
             NewWindow(processPath: @"C:\Program Files\Other\firefox-helper.exe"),
+            NewWindow(title: "picture-in-picture"),
+            NewWindow(className: "MozillaWindowClass"),
+            NewWindow(isVisible: false),
+            NewWindow(width: 0),
+            NewWindow(height: 0),
+            NewWindow(owner: 0x9999),
+        };
+    }
+
+    public static TheoryData<WindowSnapshot> NonPipShapes()
+    {
+        return new TheoryData<WindowSnapshot>
+        {
+            NewWindow(title: "Queue - Mozilla Firefox", className: "MozillaWindowClass"),
             NewWindow(title: "picture-in-picture"),
             NewWindow(className: "MozillaWindowClass"),
             NewWindow(isVisible: false),

@@ -7,18 +7,15 @@ internal static partial class NativeMethods
 {
     public const int GwlExStyle = -20;
     public const int GwOwner = 4;
-    public const int WsExTopmost = 0x00000008;
     public const int WsExLayered = 0x00080000;
     public const int WsExTransparent = 0x00000020;
     public const int LwaAlpha = 0x00000002;
     public const int WmHotkey = 0x0312;
+    public const int VkControl = 0x11;
+    public const int VkLControl = 0xA2;
+    public const int VkRControl = 0xA3;
     public const uint ModAlt = 0x0001;
     public const uint ModControl = 0x0002;
-    public const uint SwpNosize = 0x0001;
-    public const uint SwpNomove = 0x0002;
-    public const uint SwpNoactivate = 0x0010;
-    public static readonly nint HwndTopMost = new(-1);
-    public static readonly nint HwndNotTopMost = new(-2);
 
     public delegate bool EnumWindowsProc(nint hWnd, nint lParam);
 
@@ -62,13 +59,13 @@ internal static partial class NativeMethods
     public static extern bool SetLayeredWindowAttributes(nint hwnd, uint crKey, byte bAlpha, uint dwFlags);
 
     [DllImport("user32.dll", SetLastError = true)]
-    public static extern bool SetWindowPos(nint hWnd, nint hWndInsertAfter, int x, int y, int cx, int cy, uint uFlags);
-
-    [DllImport("user32.dll", SetLastError = true)]
     public static extern bool RegisterHotKey(nint hWnd, int id, uint fsModifiers, uint vk);
 
     [DllImport("user32.dll", SetLastError = true)]
     public static extern bool UnregisterHotKey(nint hWnd, int id);
+
+    [DllImport("user32.dll")]
+    public static extern short GetAsyncKeyState(int vKey);
 
     [DllImport("kernel32.dll")]
     private static extern void SetLastError(uint dwErrCode);

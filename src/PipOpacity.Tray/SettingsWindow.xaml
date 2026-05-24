@@ -1,0 +1,56 @@
+<Window x:Class="PipOpacity.Tray.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Firefox PiP Opacity"
+        Width="360"
+        SizeToContent="Height"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        ShowInTaskbar="False"
+        UseLayoutRounding="True"
+        SnapsToDevicePixels="True">
+    <Border Padding="16" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}">
+        <StackPanel>
+            <TextBlock Text="{Binding StatusText}"
+                       FontSize="13"
+                       Margin="0,0,0,14"
+                       TextTrimming="CharacterEllipsis" />
+
+            <CheckBox Content="Enable opacity control"
+                      IsChecked="{Binding Enabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      Margin="0,0,0,12" />
+
+            <Grid Margin="0,0,0,8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Opacity" VerticalAlignment="Center" />
+                <TextBlock Grid.Column="1"
+                           Text="{Binding OpacityPercent, StringFormat={}{0:0}%}"
+                           VerticalAlignment="Center" />
+            </Grid>
+
+            <Slider Minimum="0"
+                    Maximum="100"
+                    TickFrequency="5"
+                    IsSnapToTickEnabled="True"
+                    IsMoveToPointEnabled="True"
+                    Value="{Binding OpacityPercent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    Margin="0,0,0,14" />
+
+            <CheckBox Content="Click-through"
+                      IsChecked="{Binding ClickThrough, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      Margin="0,0,0,12" />
+
+            <CheckBox Content="Start with Windows"
+                      IsChecked="{Binding StartWithWindows, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      Margin="0,0,0,16" />
+
+            <Button Content="Reset PiP windows to normal"
+                    Command="{Binding ResetCommand}"
+                    HorizontalAlignment="Stretch"
+                    MinHeight="30" />
+        </StackPanel>
+    </Border>
+</Window>

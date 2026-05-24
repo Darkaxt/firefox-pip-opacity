@@ -51,7 +51,6 @@ internal sealed class HotkeyMessageWindow : NativeWindow, IDisposable
         Register(HotkeyIds.DecreaseOpacityNumpad, Keys.Subtract);
         Register(HotkeyIds.Reset, Keys.D0);
         Register(HotkeyIds.ToggleClickThrough, Keys.T);
-        Register(HotkeyIds.ToggleAlwaysOnTop, Keys.A);
     }
 
     private void Register(int id, Keys key)
@@ -72,7 +71,6 @@ internal sealed class HotkeyMessageWindow : NativeWindow, IDisposable
             HotkeyIds.DecreaseOpacityNumpad,
             HotkeyIds.Reset,
             HotkeyIds.ToggleClickThrough,
-            HotkeyIds.ToggleAlwaysOnTop,
         })
         {
             _ = NativeMethods.UnregisterHotKey(Handle, id);

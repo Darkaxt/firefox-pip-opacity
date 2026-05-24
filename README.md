@@ -1,18 +1,19 @@
 # Firefox PiP Opacity
 
-A tiny Windows tray utility for controlling Firefox Picture-in-Picture window opacity and topmost behavior.
+A tiny Windows tray utility for controlling Firefox Picture-in-Picture window opacity and optional click-through behavior.
 
-Firefox does not expose a native opacity slider for PiP windows. This app takes the OS-level route: it watches for Firefox PiP windows and applies Win32 layered-window opacity and topmost state only to those windows.
+Firefox does not expose a native opacity slider for PiP windows. This app takes the OS-level route: it watches for Firefox PiP windows and applies Win32 layered-window opacity only to those windows.
 
 ## Features
 
 - Targets Firefox PiP windows only.
-- Adjustable opacity from 35% to 100%.
+- Adjustable opacity from 0% to 100%.
 - Optional click-through mode.
-- Always-on-top toggle. When unchecked, detected PiP windows are actively made not-topmost.
-- Tray menu for pause, reset, startup, and exit.
+- Hold `Ctrl` while click-through is enabled to temporarily interact with the PiP window using the mouse.
+- WPF settings window with a real opacity slider.
+- Minimal tray menu for open, reset, startup, and exit.
 - Global hotkeys for quick opacity changes.
-- Restores modified window styles and original topmost state when paused or closed.
+- Restores modified window styles when paused or closed.
 - Runs as a user-session tray app, not a Windows service.
 
 ## Install
@@ -25,7 +26,7 @@ PipOpacity.Tray.exe
 
 Keep the DLL files from the ZIP next to the executable.
 
-The app appears as `Firefox PiP Opacity` in the notification area. Use the tray menu to enable Start with Windows if you want it to launch at login.
+The app appears as `Firefox PiP Opacity` in the notification area. Left-click or double-click the tray icon to open settings. Use the tray menu to reset, exit, or enable Start with Windows.
 
 ## Hotkeys
 
@@ -33,9 +34,10 @@ The app appears as `Firefox PiP Opacity` in the notification area. Use the tray 
 - `Ctrl+Alt+-` or `Ctrl+Alt+Numpad -`: decrease opacity
 - `Ctrl+Alt+0`: reset PiP windows to normal
 - `Ctrl+Alt+T`: toggle click-through
-- `Ctrl+Alt+A`: toggle always-on-top
 
 Hotkeys do nothing when no Firefox PiP window is detected.
+
+When click-through is enabled, hold either `Ctrl` key before using the mouse on the PiP window. The app temporarily removes click-through while `Ctrl` is down and restores it when released.
 
 ## Matching Rules
 

@@ -1,5 +1,7 @@
 namespace PipOpacity.Tray;
 
+using System.IO;
+
 internal static class AppPaths
 {
     public static string ConfigPath =>

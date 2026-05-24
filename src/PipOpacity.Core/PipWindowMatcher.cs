@@ -4,13 +4,18 @@ public static class PipWindowMatcher
 {
     public static bool IsFirefoxPictureInPicture(WindowSnapshot window)
     {
+        return HasPictureInPictureShape(window)
+            && IsFirefoxProcessPath(window.ProcessPath);
+    }
+
+    public static bool HasPictureInPictureShape(WindowSnapshot window)
+    {
         return window.IsVisible
             && window.Width > 0
             && window.Height > 0
             && window.Owner == 0
             && string.Equals(window.Title, "Picture-in-Picture", StringComparison.Ordinal)
-            && string.Equals(window.ClassName, "MozillaDialogClass", StringComparison.Ordinal)
-            && IsFirefoxProcessPath(window.ProcessPath);
+            && string.Equals(window.ClassName, "MozillaDialogClass", StringComparison.Ordinal);
     }
 
     private static bool IsFirefoxProcessPath(string processPath)

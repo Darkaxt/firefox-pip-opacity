@@ -18,7 +18,7 @@ internal sealed class StartupRegistration
     {
         using var key = Registry.CurrentUser.OpenSubKey(RunKeyPath, writable: false);
         var value = key?.GetValue(ValueName) as string;
-        return string.Equals(Unquote(value), Application.ExecutablePath, StringComparison.OrdinalIgnoreCase);
+        return string.Equals(Unquote(value), System.Windows.Forms.Application.ExecutablePath, StringComparison.OrdinalIgnoreCase);
     }
 
     public bool SetEnabled(bool enabled)
@@ -33,7 +33,7 @@ internal sealed class StartupRegistration
 
             if (enabled)
             {
-                key.SetValue(ValueName, Quote(Application.ExecutablePath), RegistryValueKind.String);
+                key.SetValue(ValueName, Quote(System.Windows.Forms.Application.ExecutablePath), RegistryValueKind.String);
             }
             else
             {

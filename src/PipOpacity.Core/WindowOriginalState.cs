@@ -1,3 +1,3 @@
 namespace PipOpacity.Core;
 
-public sealed record WindowOriginalState(int ExtendedStyle, bool WasTopMost);
+public sealed record WindowOriginalState(int ExtendedStyle);

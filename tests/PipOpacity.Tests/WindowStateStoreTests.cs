@@ -9,12 +9,11 @@ public sealed class WindowStateStoreTests
     {
         var store = new WindowStateStore();
 
-        store.RememberOriginal(0x1234, new WindowOriginalState(ExtendedStyle: 0x100, WasTopMost: true));
-        store.RememberOriginal(0x1234, new WindowOriginalState(ExtendedStyle: 0x90000, WasTopMost: false));
+        store.RememberOriginal(0x1234, new WindowOriginalState(ExtendedStyle: 0x100));
+        store.RememberOriginal(0x1234, new WindowOriginalState(ExtendedStyle: 0x90000));
 
         Assert.True(store.TryGetOriginal(0x1234, out var originalState));
         Assert.Equal(0x100, originalState.ExtendedStyle);
-        Assert.True(originalState.WasTopMost);
     }
 
     [Fact]
@@ -22,13 +21,12 @@ public sealed class WindowStateStoreTests
     {
         var store = new WindowStateStore();
 
-        store.RememberOriginal(0x1234, new WindowOriginalState(ExtendedStyle: 0x100, WasTopMost: false));
+        store.RememberOriginal(0x1234, new WindowOriginalState(ExtendedStyle: 0x100));
 
         var snapshot = store.Snapshot();
 
         Assert.Single(snapshot);
         Assert.Equal(0x100, snapshot[0x1234].ExtendedStyle);
-        Assert.False(snapshot[0x1234].WasTopMost);
     }
 
     [Fact]
@@ -36,7 +34,7 @@ public sealed class WindowStateStoreTests
     {
         var store = new WindowStateStore();
 
-        store.RememberOriginal(0x1234, new WindowOriginalState(ExtendedStyle: 0x100, WasTopMost: true));
+        store.RememberOriginal(0x1234, new WindowOriginalState(ExtendedStyle: 0x100));
         store.Forget(0x1234);
 
         Assert.False(store.TryGetOriginal(0x1234, out _));

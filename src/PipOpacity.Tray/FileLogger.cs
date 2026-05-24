@@ -1,5 +1,7 @@
 namespace PipOpacity.Tray;
 
+using System.IO;
+
 internal sealed class FileLogger
 {
     private readonly object gate = new();
