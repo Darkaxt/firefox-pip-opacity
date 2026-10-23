@@ -10,7 +10,7 @@ public sealed class PipOpacityStatusFormatterTests
         var config = PipOpacityConfig.CreateDefault();
         config.Enabled = false;
 
-        Assert.Equal("Firefox PiP Opacity: paused", PipOpacityStatusFormatter.Format(config));
+        Assert.Equal("PiP Opacity: paused", PipOpacityStatusFormatter.Format(config));
     }
 
     [Fact]
@@ -20,6 +20,6 @@ public sealed class PipOpacityStatusFormatterTests
         config.OpacityPercent = 25;
         config.ClickThrough = true;
 
-        Assert.Equal("Firefox PiP Opacity: 25%, click-through", PipOpacityStatusFormatter.Format(config));
+        Assert.Equal("PiP Opacity: 25%, click-through", PipOpacityStatusFormatter.Format(config));
     }
 }

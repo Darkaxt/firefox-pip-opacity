@@ -1,5 +1,12 @@
 # Changelog
 
+## v0.3.0 - 2026-10-23
+
+- Added video PiP detection for Chrome, Helium, Edge, Brave, Opera, Vivaldi, and Chromium using exact class/title and executable checks.
+- Changed the display name to PiP Opacity while preserving existing executable, config and startup paths.
+- Includes the WPF UI, Ctrl click-through bypass, freeze fix and AltGr hotkey correction previously prepared in v0.2.1.
+- Chromium detection currently requires the English video PiP title; document PiP and unknown/localized windows remain excluded.
+
 ## v0.2.1 - 2026-05-23
 
 - Rolled back topmost control because it interfered with Firefox PiP media interaction.
@@ -10,6 +17,7 @@
 - Kept the tray right-click menu minimal: open, reset, startup, and exit.
 - Added a temporary click-through bypass while either `Ctrl` key is held.
 - Fixed a settings-window freeze by moving periodic PiP scan/apply work off the WPF UI thread and avoiding process-path inspection for unrelated windows.
+- Removed main-keyboard `Ctrl+Alt++` and `Ctrl+Alt+-` opacity hotkeys so `AltGr` character input is not intercepted.
 
 ## v0.2.0 - 2026-05-23
 

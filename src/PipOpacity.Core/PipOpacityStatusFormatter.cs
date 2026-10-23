@@ -6,10 +6,10 @@ public static class PipOpacityStatusFormatter
     {
         if (!config.Enabled)
         {
-            return "Firefox PiP Opacity: paused";
+            return "PiP Opacity: paused";
         }
 
         var clickThroughText = config.ClickThrough ? ", click-through" : string.Empty;
-        return $"Firefox PiP Opacity: {config.OpacityPercent}%{clickThroughText}";
+        return $"PiP Opacity: {config.OpacityPercent}%{clickThroughText}";
     }
 }

@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
     <ProjectReference Include="..\PipOpacity.Core\PipOpacity.Core.csproj" />
@@ -9,10 +9,10 @@
     <TargetFramework>net8.0-windows</TargetFramework>
     <ApplicationIcon>Assets\PipOpacity.ico</ApplicationIcon>
     <AssemblyName>PipOpacity.Tray</AssemblyName>
-    <Product>Firefox PiP Opacity</Product>
-    <Version>0.2.1</Version>
+    <Product>PiP Opacity</Product>
+    <Version>0.3.0</Version>
     <Authors>Darkaxt</Authors>
-    <Description>Windows tray utility for applying opacity and click-through behavior to Firefox Picture-in-Picture windows.</Description>
+    <Description>Windows tray utility for applying opacity and click-through behavior to browser Picture-in-Picture windows.</Description>
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <UseWPF>true</UseWPF>

@@ -11,8 +11,6 @@ public enum HotkeyCommand
 
 public static class HotkeyIds
 {
-    public const int IncreaseOpacity = 101;
-    public const int DecreaseOpacity = 102;
     public const int Reset = 103;
     public const int ToggleClickThrough = 104;
     public const int IncreaseOpacityNumpad = 105;
@@ -25,8 +23,8 @@ public static class HotkeyCommandMapper
     {
         return id switch
         {
-            HotkeyIds.IncreaseOpacity or HotkeyIds.IncreaseOpacityNumpad => HotkeyCommand.IncreaseOpacity,
-            HotkeyIds.DecreaseOpacity or HotkeyIds.DecreaseOpacityNumpad => HotkeyCommand.DecreaseOpacity,
+            HotkeyIds.IncreaseOpacityNumpad => HotkeyCommand.IncreaseOpacity,
+            HotkeyIds.DecreaseOpacityNumpad => HotkeyCommand.DecreaseOpacity,
             HotkeyIds.Reset => HotkeyCommand.Reset,
             HotkeyIds.ToggleClickThrough => HotkeyCommand.ToggleClickThrough,
             _ => HotkeyCommand.None,

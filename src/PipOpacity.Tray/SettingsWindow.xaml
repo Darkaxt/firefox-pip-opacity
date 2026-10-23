@@ -1,7 +1,7 @@
 <Window x:Class="PipOpacity.Tray.SettingsWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Firefox PiP Opacity"
+        Title="PiP Opacity"
         Width="360"
         SizeToContent="Height"
         ResizeMode="NoResize"

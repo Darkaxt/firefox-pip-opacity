@@ -62,7 +62,7 @@ internal sealed class PipOpacityWpfApplication : Application
         {
             ContextMenuStrip = BuildTrayMenu(),
             Icon = appIcon,
-            Text = "Firefox PiP Opacity",
+            Text = "PiP Opacity",
             Visible = true,
         };
         notifyIcon.MouseClick += (_, args) =>
@@ -367,7 +367,7 @@ internal sealed class PipOpacityWpfApplication : Application
             return;
         }
 
-        notifyIcon.BalloonTipTitle = "Firefox PiP Opacity";
+        notifyIcon.BalloonTipTitle = "PiP Opacity";
         notifyIcon.BalloonTipText = message;
         notifyIcon.ShowBalloonTip(5000);
     }

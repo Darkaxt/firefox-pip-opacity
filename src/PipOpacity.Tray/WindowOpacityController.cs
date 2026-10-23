@@ -28,7 +28,7 @@ internal sealed class WindowOpacityController
         var matchedHandles = new HashSet<nint>();
         var matchedCount = 0;
 
-        foreach (var window in windowEnumerator.EnumerateTopLevelWindows().Where(PipWindowMatcher.IsFirefoxPictureInPicture))
+        foreach (var window in windowEnumerator.EnumerateTopLevelWindows().Where(PipWindowMatcher.IsBrowserPictureInPicture))
         {
             matchedHandles.Add(window.Handle);
             matchedCount++;
@@ -128,7 +128,7 @@ internal sealed class WindowOpacityController
 
     private void HandleWindowAccessFailure(nint handle, string operation)
     {
-        var message = $"Could not {operation} for window 0x{handle:X}. Firefox may be running elevated.";
+        var message = $"Could not {operation} for window 0x{handle:X}. The browser may be running elevated.";
         logger.Error(message);
 
         if (warnedAboutWindowAccess)
@@ -137,6 +137,6 @@ internal sealed class WindowOpacityController
         }
 
         warnedAboutWindowAccess = true;
-        warnOnce("Could not change a Firefox PiP window. If Firefox is running as administrator, run this app the same way or restart Firefox normally.");
+        warnOnce("Could not change a browser PiP window. Restart the browser normally if it is running as administrator.");
     }
 }

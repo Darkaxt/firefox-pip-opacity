@@ -5,9 +5,7 @@ using PipOpacity.Core;
 public sealed class HotkeyCommandTests
 {
     [Theory]
-    [InlineData(HotkeyIds.IncreaseOpacity, HotkeyCommand.IncreaseOpacity)]
     [InlineData(HotkeyIds.IncreaseOpacityNumpad, HotkeyCommand.IncreaseOpacity)]
-    [InlineData(HotkeyIds.DecreaseOpacity, HotkeyCommand.DecreaseOpacity)]
     [InlineData(HotkeyIds.DecreaseOpacityNumpad, HotkeyCommand.DecreaseOpacity)]
     [InlineData(HotkeyIds.Reset, HotkeyCommand.Reset)]
     [InlineData(HotkeyIds.ToggleClickThrough, HotkeyCommand.ToggleClickThrough)]
@@ -26,5 +24,13 @@ public sealed class HotkeyCommandTests
     public void RemovedTopmostHotkeyIdReturnsNone()
     {
         Assert.Equal(HotkeyCommand.None, HotkeyCommandMapper.FromId(107));
+    }
+
+    [Theory]
+    [InlineData(101)]
+    [InlineData(102)]
+    public void RemovedMainKeyboardOpacityHotkeyIdsReturnNone(int id)
+    {
+        Assert.Equal(HotkeyCommand.None, HotkeyCommandMapper.FromId(id));
     }
 }

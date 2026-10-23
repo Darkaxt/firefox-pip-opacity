@@ -4,6 +4,51 @@ using PipOpacity.Core;
 
 public sealed class PipWindowMatcherTests
 {
+    [Theory]
+    [InlineData("chrome.exe")]
+    [InlineData("helium.exe")]
+    [InlineData("msedge.exe")]
+    [InlineData("brave.exe")]
+    [InlineData("opera.exe")]
+    [InlineData("vivaldi.exe")]
+    [InlineData("chromium.exe")]
+    [InlineData("CHROME.EXE")]
+    public void ChromiumVideoPipMatchesSupportedBrowser(string executable)
+    {
+        var window = NewWindow(processPath: @"C:\Browsers\" + executable,
+            title: "Picture in picture", className: "Chrome_WidgetWin_1");
+
+        Assert.True(PipWindowMatcher.IsBrowserPictureInPicture(window));
+        Assert.True(PipWindowMatcher.HasPictureInPictureShape(window with { ProcessPath = string.Empty }));
+    }
+
+    [Theory]
+    [InlineData("chrome.exe", "YouTube - Google Chrome", "Chrome_WidgetWin_1")]
+    [InlineData("chrome.exe", "Picture in picture - Google Chrome", "Chrome_WidgetWin_1")]
+    [InlineData("chrome.exe", "Picture in picture", "Chrome_WidgetWin_0")]
+    [InlineData("msedgewebview2.exe", "Picture in picture", "Chrome_WidgetWin_1")]
+    [InlineData("ChatGPT.exe", "Picture in picture", "Chrome_WidgetWin_1")]
+    [InlineData("unknown.exe", "Picture in picture", "Chrome_WidgetWin_1")]
+    [InlineData("firefox.exe", "Picture in picture", "Chrome_WidgetWin_1")]
+    [InlineData("chrome.exe", "Picture-in-Picture", "MozillaDialogClass")]
+    public void NormalWindowsAndMismatchedBrowserFamiliesAreRejected(string executable, string title, string className)
+    {
+        Assert.False(PipWindowMatcher.IsBrowserPictureInPicture(
+            NewWindow(processPath: @"C:\Browsers\" + executable, title: title, className: className)));
+    }
+
+    [Theory]
+    [InlineData(false, 300, 200, 0)]
+    [InlineData(true, 0, 200, 0)]
+    [InlineData(true, 300, 0, 0)]
+    [InlineData(true, 300, 200, 123)]
+    public void ChromiumPipRequiresVisiblePositiveSizeUnownedWindow(bool visible, int width, int height, int owner)
+    {
+        Assert.False(PipWindowMatcher.IsBrowserPictureInPicture(NewWindow(
+            processPath: @"C:\Browsers\chrome.exe", title: "Picture in picture",
+            className: "Chrome_WidgetWin_1", isVisible: visible, width: width, height: height, owner: owner)));
+    }
+
     [Fact]
     public void FirefoxPictureInPictureWindowMatches()
     {
@@ -18,6 +63,7 @@ public sealed class PipWindowMatcherTests
             Owner: 0);
 
         Assert.True(PipWindowMatcher.IsFirefoxPictureInPicture(window));
+        Assert.True(PipWindowMatcher.IsBrowserPictureInPicture(window));
     }
 
     [Theory]
@@ -25,6 +71,7 @@ public sealed class PipWindowMatcherTests
     public void NonPictureInPictureWindowsDoNotMatch(WindowSnapshot window)
     {
         Assert.False(PipWindowMatcher.IsFirefoxPictureInPicture(window));
+        Assert.False(PipWindowMatcher.IsBrowserPictureInPicture(window));
     }
 
     [Fact]

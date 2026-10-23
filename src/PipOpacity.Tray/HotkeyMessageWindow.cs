@@ -45,9 +45,7 @@ internal sealed class HotkeyMessageWindow : NativeWindow, IDisposable
 
     private void RegisterHotkeys()
     {
-        Register(HotkeyIds.IncreaseOpacity, Keys.Oemplus);
         Register(HotkeyIds.IncreaseOpacityNumpad, Keys.Add);
-        Register(HotkeyIds.DecreaseOpacity, Keys.OemMinus);
         Register(HotkeyIds.DecreaseOpacityNumpad, Keys.Subtract);
         Register(HotkeyIds.Reset, Keys.D0);
         Register(HotkeyIds.ToggleClickThrough, Keys.T);
@@ -65,9 +63,7 @@ internal sealed class HotkeyMessageWindow : NativeWindow, IDisposable
     {
         foreach (var id in new[]
         {
-            HotkeyIds.IncreaseOpacity,
             HotkeyIds.IncreaseOpacityNumpad,
-            HotkeyIds.DecreaseOpacity,
             HotkeyIds.DecreaseOpacityNumpad,
             HotkeyIds.Reset,
             HotkeyIds.ToggleClickThrough,
