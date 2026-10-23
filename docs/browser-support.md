@@ -10,7 +10,7 @@
 ## Stages And Reconciliation
 
 1. Browser support: COMPLETE. R1-R3 verified: Release build clean; matching/negative fixtures and existing regression suite pass. Live Helium smoke verified alpha 128, click-through, bypass policy applied through the native controller, pause/exit restore, and unchanged styles on 34 unmatched visible windows. Physical Ctrl input on Helium was not synthesized; its existing poll path is unchanged. No scope-related design debt, blockers or deferrals identified.
-2. Delivery: ACTIVE. R4; commit/push/tag, package, publish and independently download/verify release. Keep the running installed tray process intact; deliver the upgrade as a versioned release package.
+2. Delivery: COMPLETE. R4 verified: normal latest GitHub release v0.3.0 targets code commit 6c8dd92f77817bb4579fb45c9cf241d36ac269b4; the independently downloaded self-contained ZIP matches local SHA256 978c5dba7deee74a9e9677e8086f88d0961b0bc73ab9773854c52e32fc35f609. Extracted executable reports 0.3.0.0 and the matching source revision; required native runtime DLLs and license notices are included. The established package is unsigned. The running installed tray process remains intact; the upgrade is delivered as a versioned release package. No blockers or tracked deferrals remain.
 
 ## Detection Evidence
 
